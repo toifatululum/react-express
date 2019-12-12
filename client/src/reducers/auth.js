@@ -1,4 +1,9 @@
-import { REGISTER_BERHASIL, LOGIN__BERHASIL, ERROR } from "../action/types";
+import {
+  REGISTER_BERHASIL,
+  LOGIN__BERHASIL,
+  ERROR,
+  REGISTER_ERROR
+} from "../action/types";
 const initialState = {
   token: localStorage.getItem("token"),
   isAuthenticated: null,
@@ -14,6 +19,13 @@ export default function(state = initialState, action) {
       return {
         ...state,
         ...payload,
+        isAuthenticated: true,
+        loading: false
+      };
+    case REGISTER_ERROR:
+      return {
+        ...state,
+        token: null,
         isAuthenticated: false,
         loading: false
       };
