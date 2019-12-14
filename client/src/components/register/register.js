@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { register } from "../../action/auth";
-import { stat } from "fs";
-import { connect } from "http2";
+import { connect } from "react-redux";
+
+import PropTypes from "prop-types";
 const Register = (isAuthenticated, register, error) => {
   const [formData, setData] = useState({
     name: "",
@@ -12,64 +13,72 @@ const Register = (isAuthenticated, register, error) => {
   const onChange = async e => {
     setData({ ...formData, [e.target.name]: e.target.value });
   };
+
+  const onSubmit = () => {
+    register({ name, email, password });
+  };
+
   return (
     <div>
-      <form>
-        <div class="form-group">
-          <label for="exampleInputEmail1">Nama</label>
-          <input
-            value={name}
-            type="text"
-            name="name"
-            onChange={e => onChange(e)}
-            class="form-control"
-            id="exampleInputNama"
-            aria-describedby="namaHelp"
-          />
-        </div>
-        <div class="form-group">
-          <label for="exampleInputEmail1">Email address</label>
-          <input
-            value={email}
-            type="email"
-            class="form-control"
-            name="email"
-            onChange={e => onChange(e)}
-            id="exampleInputEmail1"
-            aria-describedby="emailHelp"
-          />
-          <small id="emailHelp" class="form-text text-muted">
-            We'll never share your email with anyone else.
-          </small>
-        </div>
-        <div class="form-group">
-          <label for="exampleInputPassword1">Password</label>
-          <input
-            value={password}
-            name="password"
-            onChange={e => onChange(e)}
-            type="password"
-            class="form-control"
-            id="exampleInputPassword1"
-          />
-        </div>
-        <div class="form-group form-check">
-          <input type="checkbox" class="form-check-input" id="exampleCheck1" />
-          <label class="form-check-label" for="exampleCheck1">
-            Check me out
-          </label>
-        </div>
-        <button type="submit" class="btn btn-primary">
-          Submit
-        </button>
-      </form>
+      <div className="form-group">
+        <label>Nama</label>
+        <input
+          value={name}
+          type="text"
+          name="name"
+          onChange={e => onChange(e)}
+          className="form-control"
+          id="exampleInputNama"
+          aria-describedby="namaHelp"
+        />
+      </div>
+      <div className="form-group">
+        <label>Email address</label>
+        <input
+          value={email}
+          type="email"
+          className="form-control"
+          name="email"
+          onChange={e => onChange(e)}
+          id="exampleInputEmail1"
+          aria-describedby="emailHelp"
+        />
+        <small id="emailHelp" className="form-text text-muted">
+          We'll never share your email with anyone else.
+        </small>
+      </div>
+      <div className="form-group">
+        <label for="exampleInputPassword1">Password</label>
+        <input
+          value={password}
+          name="password"
+          onChange={e => onChange(e)}
+          type="password"
+          className="form-control"
+          id="exampleInputPassword1"
+        />
+      </div>
+      <div className="form-group form-check">
+        <input
+          type="checkbox"
+          className="form-check-input"
+          id="exampleCheck1"
+        />
+        <label className="form-check-label" for="exampleCheck1">
+          Check me out
+        </label>
+      </div>
+      <button
+        type="submit"
+        onClick={() => onSubmit()}
+        className="btn btn-primary"
+      >
+        Submit
+      </button>
     </div>
   );
 };
-
-const mapStateToProp = state => ({
-  isAuthenticated: state.auth.isAuthenticated,
-  error: state.error
-});
-
-export default connect(mapStateToProp, { register })(Register);
+Register.propTypes = {
+  register: PropTypes.func.isRequired
+};
+export default connect(null, { register })(Register);

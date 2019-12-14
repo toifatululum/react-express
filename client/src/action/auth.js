@@ -9,8 +9,7 @@ import {
   REGISTER_ERROR
 } from "./types";
 import setAuthToken from "../utils/setAuthToken";
-import { resolve } from "dns";
-import { object } from "C:/Users/asus/AppData/Local/Microsoft/TypeScript/3.6/node_modules/@types/prop-types";
+
 const linkAddress = "https://simalakama.herokuapp.com";
 export const loadUser = () => async dispatch => {
   if (localStorage.token) {
@@ -38,7 +37,9 @@ export const register = ({ nama, email, password }) => async dispatch => {
   try {
     const role = "User";
     const body = JSON.stringify({ nama, email, password, role });
-    const res = await axios.post(`${linkAddress}/users/register`, body);
+    console.log(body);
+    const res = await axios.post(`${linkAddress}/users/register`, body, config);
+    console.log(res);
     dispatch({
       type: REGISTER_BERHASIL,
       payload: res.data
